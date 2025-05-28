@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Converter</title>
+    <meta name="viewport" content="width=400, initial-scale=1.0">
+    <link rel="stylesheet" href="temperature.css">
+</head>
+<body>
+    <div class="background">
+        <div class="container">
+            <div class="status-bar">
+                <span class="time" id="currentTime">9:41</span>
+                <span class="icons">
+                    <span class="icon-signal"></span>
+                    <span class="icon-wifi"></span>
+                    <span class="icon-battery"></span>
+                </span>
+            </div>
+            <div class="title">Temperature Converter Website</div>
+            <form id="converterForm" autocomplete="off">
+                <div class="row">
+                    <div class="col">
+                        <label for="degrees">Degrees</label>
+                        <input type="number" id="degrees" name="degrees" value="72" required>
+                    </div>
+                    <div class="col">
+                        <label for="type">Type</label>
+                        <select id="type" name="type">
+                            <option value="fahrenheit" selected>Fahrenheit</option>
+                            <option value="celsius">Celsius</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="result-label">Result</div>
+                <div class="result-value" id="result">22.2222 &deg;C</div>
+                <button type="submit" class="convert-btn">Convert</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        // Display current time in the status bar
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('currentTime').textContent = hours + ':' + minutes;
+        }
+        
+        // Update time immediately and then every minute
+        updateTime();
+        setInterval(updateTime, 60000);
+
+        // Temperature converter logic
+        document.getElementById("converterForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const degrees = parseFloat(document.getElementById("degrees").value);
+            const type = document.getElementById("type").value;
+            let result = "";
+
+            if (isNaN(degrees)) {
+                result = "Invalid input";
+            } else if (type === "fahrenheit") {
+                // F to C
+                const celsius = (degrees - 32) * 5 / 9;
+                result = celsius.toFixed(4) + " °C";
+            } else {
+                // C to F
+                const fahrenheit = (degrees * 9 / 5) + 32;
+                result = fahrenheit.toFixed(4) + " °F";
+            }
+            document.getElementById("result").innerHTML = result;
+        });
+    </script>
+</body>
+</html>
